@@ -1,8 +1,8 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import DateTime, Integer
+from datetime import datetime
 
 class BaseModel(DeclarativeBase):
     """Base model with common fields for all tables."""
-    id: Mapped[Integer] = mapped_column(primary_key=True, autoincrement=True)
-    created_at: Mapped[DateTime] = mapped_column(nullable=False, default="CURRENT_TIMESTAMP")
-    updated_at: Mapped[DateTime] = mapped_column(nullable=False, onupdate="CURRENT_TIMESTAMP", default="CURRENT_TIMESTAMP")
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.now())
+    updated_at: Mapped[datetime] = mapped_column(nullable=False, onupdate=datetime.now(), default=datetime.now())
