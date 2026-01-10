@@ -1,9 +1,10 @@
 from pydantic import BaseModel, NaiveDatetime
 
+
 class OrmModeMixin(BaseModel):
     class Config:
         from_attributes = True
-        orm_mode = True
+
 
 class OutMixin(BaseModel):
     id: int
@@ -11,4 +12,4 @@ class OutMixin(BaseModel):
     updated_at: NaiveDatetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
