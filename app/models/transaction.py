@@ -1,17 +1,16 @@
-from app.commons.base_model import BaseModel
+from app.common.base_model import BaseModel
+from app.common.enums.transaction_type import FinancialTransactionTypeEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import Float, String, ForeignKey
-from typing import TYPE_CHECKING
+from sqlalchemy import Numeric, ForeignKey, Enum
+from decimal import Decimal
 
-if TYPE_CHECKING:
-    from app.models.statement import Statement
-else:
-    Statement = None
 
-class Transaction(BaseModel):
+class FinancialTransaction(BaseModel):
     """Model representing a financial transaction."""
-    amount: Mapped[Float] = mapped_column(precision=2, nullable=False)
-    description: Mapped[String] = mapped_column(nullable=True, max_length=120)
+    __tablename__ = "financial_transactions"
+    amount: Mapped[Decimal] = mapped_column(Numeric(scale=2), nullable=False)
+    description: Mapped[str] = mapped_column(nullable=True, max_length=120)
+    transaction_type: Mapped[FinancialTransactionTypeEnum] = mapped_column(Enum(FinancialTransactionTypeEnum), nullable=False)
     statement_id: Mapped[int] = mapped_column(ForeignKey("statements.id"), nullable=False)
 
     statement: Mapped["Statement"] = relationship(back_populates="transactions")
